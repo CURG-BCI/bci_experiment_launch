@@ -1,0 +1,5 @@
+<launch>
+  <include file="$(find bci_experiment_launch)/launch/hardware.launch" />
+  <!--<include file="$(find bci_experiment_launch)/launch/vision.launch" />
+  <include file="$(find bci_experiment_launch)/launch/planners.launch" /> -->
+</launch>

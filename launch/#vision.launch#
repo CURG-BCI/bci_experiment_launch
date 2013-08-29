@@ -1,0 +1,14 @@
+<launch>  
+  <arg name="use_pc" default="True" />
+
+  <node name="openni_launcher" pkg="bci_experiment_launch" type="launch_scripts.bash" args=" openni_launch openni.launch depth_registration:=true" launch-prefix="roxterm --profile=vision --title=vision --tab-name=openni -e" />
+  <param name="cloud_topic" value="/filtered_pc" if="$(arg use_pc)"/>
+  <param name="cloud_topic" value="/camera/depth_registered/points" unless="$(arg use_pc)"/>
+  
+
+  <node pkg="model_rec2" name="model_rec" type="ObjRecRANSACRun" launch-prefix="roxterm --profile=vision --tab --tab-name=model_rec -e"/>
+
+
+  <node name="pc_filter" pkg="bci_experiment_launch" type="launch_scripts.bash" args=" pc_filter pc_filter.launch" launch-prefix="/usr/bin/roxterm --profile=vision --tab --tab-name=pc_filter -e" if="$(arg use_pc)"/>
+
+</launch>

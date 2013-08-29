@@ -1,0 +1,15 @@
+<launch>
+
+  <arg name="init_planner" default="True" />
+  <arg name="use_pc" default="True" />
+
+  <param name="init_planner" value="$(arg init_planner)" />
+  <param name="graspit_pointcloud_topic" value="/filtered_pc" if="$(arg use_pc)"/>
+  <param name="graspit_pointcloud_topic" value="/camera/depth_registered/points" unless="$(arg use_pc)"/>
+
+  <node name="graspit_connection" pkg="graspit_python_node" type="graspit_server.py" launch-prefix="roxterm --profile=planners --title=planners --tab-name=graspit_python_node -e" />
+  <node name="automatic_control" pkg="trajectory_planner" type="grasp_message_robot_server.py" launch-prefix="roxterm --profile=planners --tab --tab-name=automatic -e ipython" />
+  <node name="manual_control" pkg="trajectory_planner" type="manual_control.py" launch-prefix="roxterm --profile=planners --tab --tab-name=manual -e" />
+  
+
+</launch>

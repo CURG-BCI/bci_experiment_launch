@@ -1,0 +1,6 @@
+<launch>
+<include file="$(find bci_experiment_launch)/launch/vision_tests.launch" />
+<include file="$(find bci_experiment_launch)/launch/planners.launch">
+  <arg name="init_planner" value="False" />
+</include>
+</launch>

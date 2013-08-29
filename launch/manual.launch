@@ -1,0 +1,3 @@
+<launch>
+  <node name="manual_control" pkg="trajectory_planner" type="trajectory_planner.py" launch-prefix="ipython -c 'g=SetupStaubliEnv()'" />
+</launch>

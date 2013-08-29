@@ -1,0 +1,9 @@
+<launch>  
+<arg name="use_pc" default="False"/>
+
+  <include file="$(find checkerboard_detection)/launch/kinect_camerapose.launch" />
+  <include file="$(find bci_experiment_launch)/launch/vision.launch" >
+    <arg name="use_pc" value="$(arg use_pc)" />
+  </include>
+  
+</launch>

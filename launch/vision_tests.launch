@@ -1,9 +1,12 @@
 <launch>  
 <arg name="use_pc" default="True"/>
-  <node name="env_poses" pkg="calibration" type="env_setup" /> 
-  <include file="$(find checkerboard_detection)/launch/kinect_camerapose.launch" />
-  <include file="$(find bci_experiment_launch)/launch/vision.launch" >
+<arg name="use_fake_vision" default="False"/>
+
+<node name="env_poses" pkg="calibration" type="env_setup" /> 
+<include file="$(find checkerboard_detection)/launch/kinect_camerapose.launch" />
+<include file="$(find bci_experiment_launch)/launch/vision.launch" >
     <arg name="use_pc" value="$(arg use_pc)" />
-  </include>
+    <arg name="use_fake_vision" value="$(arg use_fake_vision)"/>
+</include>
   
 </launch>

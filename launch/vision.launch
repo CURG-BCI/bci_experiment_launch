@@ -1,13 +1,26 @@
 <launch>  
   <arg name="use_pc" default="True" />
+  <arg name="use_fake_vision" default="False"/>
 
-  <node name="openni_launcher" pkg="bci_experiment_launch" type="launch_scripts.bash" args=" openni_launch openni.launch depth_registration:=true" launch-prefix="roxterm --profile=vision --title=vision --tab-name=openni -e" />
   <param name="cloud_topic" value="/filtered_pc" if="$(arg use_pc)"/>
   <param name="cloud_topic" value="/camera/depth_registered/points" unless="$(arg use_pc)"/>
+
+  <group unless="$(arg use_fake_vision)">
+  <node name="openni_launcher" pkg="bci_experiment_launch" type="launch_scripts.bash" args=" openni_launch openni.launch depth_registration:=true" launch-prefix="roxterm --profile=vision --title=vision --tab-name=openni -e" />
+
+  <node name="pc_filter" pkg="bci_experiment_launch" type="launch_scripts.bash" args=" pc_filter pc_filter.launch" launch-prefix="/usr/bin/roxterm --profile=vision --tab --tab-name=pc_filter -e" if="$(arg use_pc)"/>
+
+  </group>
+
+  <group if="$(arg use_fake_vision)" >
+      <node name="fake_cloud_data" pkg="bci_experiment_launch" type="no_kinect.py" launch-prefix="/usr/bin/roxterm --profile=vision --tab --tab-name=fake_vision -e"/>
+
+  </group>
+
 
   <node pkg="model_rec2" name="model_rec" type="ObjRecRANSACRun" launch-prefix="roxterm --profile=vision --tab --tab-name=model_rec -e"/>
 
 
-  <node name="pc_filter" pkg="bci_experiment_launch" type="launch_scripts.bash" args=" pc_filter pc_filter.launch" launch-prefix="/usr/bin/roxterm --profile=vision --tab --tab-name=pc_filter -e" if="$(arg use_pc)"/>
+
 
 </launch>

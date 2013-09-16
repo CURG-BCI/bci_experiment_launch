@@ -1,5 +1,10 @@
 <launch>
-<include file="$(find bci_experiment_launch)/launch/vision_tests.launch" />
+<arg name="use_fake_vision" default="True"/>
+
+<include file="$(find bci_experiment_launch)/launch/vision_tests.launch" >
+  <arg name="use_fake_vision" value="$(arg use_fake_vision)" />
+</include>
+
 <include file="$(find bci_experiment_launch)/launch/planners.launch">
   <arg name="init_planner" value="False" />
 </include>

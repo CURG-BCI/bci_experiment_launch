@@ -8,6 +8,7 @@
   <param name="graspit_pointcloud_topic" value="/camera/depth_registered/points" unless="$(arg use_pc)"/>
 
   <node name="graspit_connection" pkg="graspit_python_node" type="graspit_server.py" launch-prefix="roxterm --profile=planners --title=planners --tab-name=graspit_python_node -e" />
+
   <node name="automatic_control" pkg="trajectory_planner" type="grasp_message_robot_server.py" launch-prefix="roxterm --profile=planners --tab --tab-name=automatic -e ipython" />
   <node name="manual_control" pkg="trajectory_planner" type="manual_control.py" launch-prefix="roxterm --profile=planners --tab --tab-name=manual -e" />
   

@@ -18,6 +18,7 @@ import rospy
 import rosbag
 import tf
 import pdb
+
 class CloudDataPublisher(object):
     def __init__(self, bag):
         def get_tf(parent_frame, child_frame, bag):

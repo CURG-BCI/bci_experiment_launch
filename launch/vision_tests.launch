@@ -1,6 +1,6 @@
 <launch>  
 <arg name="use_pc" default="True"/>
-<arg name="use_fake_vision" default="False"/>
+<arg name="use_fake_vision" default="True"/>
 
 <node name="env_poses" pkg="calibration" type="env_setup" /> 
 <include file="$(find checkerboard_detection)/launch/kinect_camerapose.launch" />

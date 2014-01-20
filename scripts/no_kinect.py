@@ -18,6 +18,8 @@ import rospy
 import rosbag
 import tf
 import pdb
+import time
+import calendar
 
 class CloudDataPublisher(object):
     def __init__(self, bag):
@@ -29,9 +31,6 @@ class CloudDataPublisher(object):
                     return m
                     
         #Get TFs
-        
-        
-        
         camera_to_world = get_tf('/camera_rgb_optical_frame','/world', bag)        
         rgb_to_rgb_optical = get_tf('/camera_rgb_frame','/camera_rgb_optical_frame',bag)
         depth_to_depth_optical = get_tf('/camera_depth_frame','/camera_depth_optical_frame',bag)
@@ -41,7 +40,7 @@ class CloudDataPublisher(object):
 
         r = bag.read_messages('/filtered_pc')
         self.point_cloud = r.next()[1]
-        
+        self.point_cloud.header.stamp.secs = calendar.timegm(time.gmtime())
         self.tf_msgs = [camera_to_world, rgb_to_rgb_optical, depth_to_depth_optical,
                         camera_link_to_rgb, camera_link_to_depth]
         self.tf_broadcaster = tf.TransformBroadcaster()

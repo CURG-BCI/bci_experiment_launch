@@ -1,12 +1,17 @@
 <launch>  
-<arg name="use_pc_filter" default="True"/>
+<!-- Filter the point cloud before sending it to the vision system -->
+<arg name="use_pointcloud_filter" default="True"/>
+<!-- Enable simulated data from the kinect rather than real data -->
 <arg name="use_fake_vision" default="True"/>
+<!-- Respawn the camera if the nodelet dies -->	
+<arg name="openni_respawn" default="True"/>
 
 <node name="env_poses" pkg="calibration" type="env_setup" /> 
 <include file="$(find checkerboard_detection)/launch/kinect_camerapose.launch" />
 <include file="$(find bci_experiment_launch)/launch/vision.launch" >
-    <arg name="use_pc_filter" value="$(arg use_pc_filter)" />
+    <arg name="use_pointcloud_filter" value="$(arg use_pointcloud_filter)" />
     <arg name="use_fake_vision" value="$(arg use_fake_vision)"/>
+    <arg name="openni_respawn" value="$(arg openni_respawn)"/>
 </include>
   
 </launch>

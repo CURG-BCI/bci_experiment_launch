@@ -1,5 +1,23 @@
 <launch>
+  <!-- Respawn the camera if the nodelet dies -->
+  <arg name="openni_respawn" default="True"/> 
+  <!-- Filter the point cloud before sending it to the vision system -->
+  <arg name="use_pointcloud_filter" default="False" />
+  <!-- Enable simulated data from the kinect rather than real data -->
+  <arg name="use_fake_vision" default="False"/>
+
+  
   <include file="$(find bci_experiment_launch)/launch/hardware.launch" />
-  <include file="$(find bci_experiment_launch)/launch/vision.launch" />
-  <include file="$(find bci_experiment_launch)/launch/planners.launch" /> 
+
+
+  <include file="$(find bci_experiment_launch)/launch/vision.launch">
+    <arg name="openni_respawn" value="$(arg openni_respawn)"/>
+    <arg name="use_pointcloud_filter" value="$(arg use_pointcloud_filter)" />
+    <arg name="use_fake_vision" value="$(arg use_fake_vision)" />
+  </include>
+
+
+  <include file="$(find bci_experiment_launch)/launch/planners.launch" >
+    <arg name="use_filtered_pointcloud_topic" value="$(arg use_pointcloud_filter)" /> 
+  </include> 
 </launch>

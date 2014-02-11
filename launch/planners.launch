@@ -1,11 +1,12 @@
 <launch>
-
+  <!-- Should the planner start communicating with the robot -->
   <arg name="init_planner" default="True" />
-  <arg name="use_pc" default="False" />
+  <!-- Chose whether the planners use the filtered point cloud or the unfiltered one -->
+  <arg name="use_filtered_pointcloud_topic" default="False" /> 
 
   <param name="init_planner" value="$(arg init_planner)" />
-  <param name="graspit_pointcloud_topic" value="/filtered_pc" if="$(arg use_pc)"/>
-  <param name="graspit_pointcloud_topic" value="/camera/depth_registered/points" unless="$(arg use_pc)"/>
+  <param name="graspit_pointcloud_topic" value="/filtered_pc" if="$(arg use_filtered_pointcloud_topic)"/>
+  <param name="graspit_pointcloud_topic" value="/camera/depth_registered/points" unless="$(arg use_filtered_pointcloud_topic)"/>
 
   <node name="graspit_connection" pkg="graspit_python_node" type="graspit_server.py" launch-prefix="roxterm --title=planners --tab-name=graspit_python_node -e" />
 

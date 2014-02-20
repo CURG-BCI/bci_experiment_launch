@@ -5,13 +5,13 @@
   <arg name="use_filtered_pointcloud_topic" default="False" /> 
 
   <param name="init_planner" value="$(arg init_planner)" />
-  <param name="graspit_pointcloud_topic" value="/filtered_pc" if="$(arg use_filtered_pointcloud_topic)"/>
-  <param name="graspit_pointcloud_topic" value="/camera/depth_registered/points" unless="$(arg use_filtered_pointcloud_topic)"/>
+  <param name="graspit_pointcloud_topic" value="/filtered_pc" if="$(arg use_filtered_pointcloud_topic)" />
+  <param name="graspit_pointcloud_topic" value="/camera/depth_registered/points" unless="$(arg use_filtered_pointcloud_topic)" />
 
-  <node name="graspit_connection" pkg="graspit_python_node" type="graspit_server.py" launch-prefix="roxterm --title=planners --tab-name=graspit_python_node -e" />
+  <node name="graspit_connection" pkg="graspit_python_node" type="graspit_server.py" />
 
-  <node name="automatic_control" pkg="trajectory_planner" type="grasp_message_robot_server.py" launch-prefix="roxterm --tab --tab-name=automatic -e ipython" />
-  <node name="manual_control" pkg="trajectory_planner" type="manual_control.py" launch-prefix="roxterm  --tab --tab-name=manual -e" />
-  
+  <include file="$(find trajectory_planner)/launch/automatic_control.launch" />
+  <!-- wrapping manual control to not start automatically -->
+  <node name="manual_control_wrapper" pkg="default_cfg_fkie" type="default_cfg" args="_package:=trajectory_planner _launch_file:=manual_control.launch" />
 
 </launch>

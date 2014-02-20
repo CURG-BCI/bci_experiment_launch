@@ -6,6 +6,8 @@
 <!-- Respawn the camera if the nodelet dies -->	
 <arg name="openni_respawn" default="True"/>
 
+<include file="$(find rqt_monitor)/launch/rqt_monitor.launch" />
+
 <include file="$(find bci_experiment_launch)/launch/vision_tests.launch" >
   <arg name="use_fake_vision" value="$(arg use_fake_vision)" />
   <arg name="use_pointcloud_filter" value="$(arg use_pointcloud_filter)"/>

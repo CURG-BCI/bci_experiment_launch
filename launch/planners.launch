@@ -11,7 +11,6 @@
   <node name="graspit_connection" pkg="graspit_python_node" type="graspit_server.py" />
 
   <include file="$(find trajectory_planner)/launch/automatic_control.launch" />
-  <!-- wrapping manual control to not start automatically -->
-  <node name="manual_control_wrapper" pkg="default_cfg_fkie" type="default_cfg" args="_package:=trajectory_planner _launch_file:=manual_control.launch" />
+  <include file="$(find trajectory_planner)/launch/manual_control.launch" />
 
 </launch>

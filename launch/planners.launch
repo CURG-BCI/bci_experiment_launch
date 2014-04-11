@@ -10,9 +10,6 @@
 
   <node name="graspit_connection" pkg="graspit_python_node" type="graspit_ros_server.py" />
 
-  <!--<include file="$(find trajectory_planner)/launch/automatic_control.launch" />-->
-  <!--<include file="$(find trajectory_planner)/launch/manual_control.launch" />-->
   <include file="$(find moveit_trajectory_planner)/launch/staubli_tp_demo.launch" />
-
 
 </launch>

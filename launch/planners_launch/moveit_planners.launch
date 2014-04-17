@@ -1,14 +1,14 @@
 <launch>
     <arg name="use_filtered_pointcloud_topic" default="False" /> 
-    <arg name="graspit_url" default="picard.cs.columbia.edu" />    
+    <arg name="graspit_url" default="picard.cs.columbia.edu" />
     <arg name="init_planner" default="False"/>
 
     <include file="$(find staubli_barretthand_moveit_config)/launch/demo.launch"/>
     
     <node name="moveit_trajectory_planner" pkg="moveit_trajectory_planner" type="grasp_message_robot_server.py" />
     
-      <node name="graspit_connection" pkg="graspit_python_node" type="graspit_ros_server.py" >
-    	  <param name="graspit_url" value="$(arg graspit_url)" />
+    <node name="graspit_connection" pkg="graspit_python_node" type="graspit_ros_server.py" >
+        <param name="graspit_url" value="$(arg graspit_url)" />
     </node>
 
 

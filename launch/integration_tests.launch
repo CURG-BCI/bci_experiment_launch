@@ -5,10 +5,7 @@
   <!-- Filter the point cloud before sending it to the vision system -->
   <arg name="use_pointcloud_filter" default="False" />
   <!-- Enable simulated data from the kinect rather than real data -->
-  <arg name="use_fake_vision" default="False"/>
-
-  
-  <include file="$(find bci_experiment_launch)/launch/hardware_launch/hardware.launch" />
+  <arg name="use_fake_vision" default="True"/>
 
 
   <include file="$(find bci_experiment_launch)/launch/vision_launch/vision.launch">
@@ -19,7 +16,9 @@
 
 
   <include file="$(find bci_experiment_launch)/launch/planners_launch/planners.launch" >
-    <arg name="use_filtered_pointcloud_topic" value="$(arg use_pointcloud_filter)" /> 
-  </include> 
+    <arg name="use_filtered_pointcloud_topic" value="$(arg use_pointcloud_filter)" />
+  </include>
+
+  <test test-name="integration-tests" name="integration_tests" pkg="graspit_python_node" type="integration_tests.py" />
 
 </launch>

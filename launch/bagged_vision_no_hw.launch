@@ -25,4 +25,7 @@
          <arg name="init_planner" value="False"/>
          <arg name="use_filtered_pointcloud_topic" value="$(arg use_pointcloud_filter)"/>
     </include>
+
+    <test test-name="integration-tests" name="integration_tests" pkg="graspit_python_node" type="integration_tests.py" />
+
 </launch>

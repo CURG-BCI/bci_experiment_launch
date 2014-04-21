@@ -23,6 +23,6 @@
          <arg name="use_filtered_pointcloud_topic" value="$(arg use_pointcloud_filter)"/>
     </include>
 
-    <!--These integration tests will run if rostest is called, instead of roslaunch-->
     <include file="$(find mock_graspit)/launch/integration_tests.test"/>
+
 </launch>

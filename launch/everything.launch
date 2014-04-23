@@ -6,9 +6,12 @@
   <arg name="use_pointcloud_filter" default="False" />
   <!-- Enable simulated data from the kinect rather than real data -->
   <arg name="use_fake_vision" default="False"/>
-
+  <arg name="use_real_hw" default="False" />
   
-  <include file="$(find bci_experiment_launch)/launch/hardware_launch/hardware.launch" />
+  <include file="$(find bci_experiment_launch)/launch/hardware_launch/hardware.launch">
+     <arg name="use_real_hw" value="$(arg use_real_hw)" />
+  </include>
+
 
 
   <include file="$(find bci_experiment_launch)/launch/vision_launch/vision.launch">
@@ -20,6 +23,7 @@
 
   <include file="$(find bci_experiment_launch)/launch/planners_launch/planners.launch" >
     <arg name="use_filtered_pointcloud_topic" value="$(arg use_pointcloud_filter)" /> 
-  </include> 
+  </include>
+
 
 </launch>

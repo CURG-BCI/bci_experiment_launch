@@ -11,4 +11,8 @@
         <param name="graspit_url" value="$(arg graspit_url)" />
     </node>
 
+
+
+
+
 </launch>

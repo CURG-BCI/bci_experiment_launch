@@ -1,6 +1,7 @@
 <launch>  
   <arg name="use_pointcloud_filter" default="False" />
   <arg name="use_fake_vision" default="False"/>
+  <arg name="use_fake_model_rec" default="False"/>
   <arg name="openni_respawn" default="True" />
 
 
@@ -10,16 +11,26 @@
 
 
   <group if="$(arg use_fake_vision)" >
+
     <include file="$(find mock_vision)/launch/mock_vision.launch" />
+
+        <group if="$(arg use_fake_model_rec)" >
+            <node pkg="mock_model_rec2" name="mock_model_rec2_node" type="mock_model_rec2_node.py" />
+        </group>
+
+         <group unless="$(arg use_fake_model_rec)" >
+            <node pkg="model_rec2" name="model_rec" type="ObjRecRANSACRun" />
+        </group>
   </group>
 
   <group unless="$(arg use_fake_vision)">
     <node name="openni_launcher" pkg="bci_experiment_launch" type="launch_scripts.bash" args=" openni_launch openni.launch depth_registration:=true bond:=true" />
     <node name="pc_filter" pkg="bci_experiment_launch" type="launch_scripts.bash" args=" pc_filter pc_filter.launch" if="$(arg use_pointcloud_filter)" />
+    <node pkg="model_rec2" name="model_rec" type="ObjRecRANSACRun" />
   </group>
 
 
-  <node pkg="model_rec2" name="model_rec" type="ObjRecRANSACRun" />
+
 
 
 </launch>

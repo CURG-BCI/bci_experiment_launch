@@ -24,9 +24,17 @@
   </group>
 
   <group unless="$(arg use_fake_vision)">
-    <node name="openni_launcher" pkg="bci_experiment_launch" type="launch_scripts.bash" args=" openni_launch openni.launch depth_registration:=true bond:=true" />
-    <node name="pc_filter" pkg="bci_experiment_launch" type="launch_scripts.bash" args=" pc_filter pc_filter.launch" if="$(arg use_pointcloud_filter)" />
-    <node pkg="model_rec2" name="model_rec" type="ObjRecRANSACRun" />
+
+      <include file="$(find openni_launch)/launch/openni.launch">
+          <arg name="depth_registration" value="true" />
+          <arg name="bond" value="true" />
+      </include>
+
+      <include file="$(find mock_vision)/launch/mock_vision.launch"/>
+
+      <include file="$(find pc_filter)/launch/pc_filter.launch"  if="$(arg use_pointcloud_filter)"/>
+
+      <node pkg="model_rec2" name="model_rec" type="ObjRecRANSACRun" />
   </group>
 
 

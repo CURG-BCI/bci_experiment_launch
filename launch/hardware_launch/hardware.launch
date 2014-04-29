@@ -17,15 +17,9 @@
  
       <param name="bhd/log_canbus_data" type="bool" value="false" />
 
-      <node pkg="owd" type="canbhd" output="screen" respawn="false" cwd="node" name="bhd" launch-prefix="/usr/bin/roxterm --title=hardware --tab-name=owd -e"/>
+      <node pkg="owd" type="canbhd" output="screen" respawn="false" cwd="node" name="bhd"/>
+      <node name="staubli_controller" pkg="staubli_tx60"  type="staubli_tx60_server" args="http://192.168.11.254:5653/"/>
+    </group>
 
-
-      <node name="staubli_controller" pkg="staubli_tx60"  type="staubli_tx60_server" args="http://192.168.11.254:5653/" launch-prefix="roxterm --tab --tab-name=staubli -e"/>
-  </group>
-
- <node name="calibration_launcher" pkg="bci_experiment_launch" type="launch_scripts.bash" args=" calibration launchKinectRobot.launch" launch-prefix="roxterm --tab --tab-name=calibration -e" />
-
-
-
-
+    <include file="$(find calibration)/launch/launchKinectRobot.launch" />
 </launch>

@@ -1,15 +1,31 @@
 <launch>
-  <!-- Should the planner start communicating with the robot -->
-  <arg name="init_planner" default="True" />
-  <!-- Chose whether the planners use the filtered point cloud or the unfiltered one -->
-  <arg name="use_filtered_pointcloud_topic" default="False" /> 
 
-  <param name="init_planner" value="$(arg init_planner)" />
-  <param name="graspit_pointcloud_topic" value="/filtered_pc" if="$(arg use_filtered_pointcloud_topic)" />
-  <param name="graspit_pointcloud_topic" value="/camera/depth_registered/points" unless="$(arg use_filtered_pointcloud_topic)" />
+    <arg name="graspit_url" default="picard.cs.columbia.edu" />
+    <!-- Should the planner start communicating with the robot -->
+    <arg name="use_real_hw" default="False" />
+    <!-- Chose whether the planners use the filtered point cloud or the unfiltered one -->
+    <arg name="use_filtered_pointcloud_topic" default="False" />
+    <arg name="use_moveit" default="True"/>
 
-  <node name="graspit_connection" pkg="graspit_python_node" type="graspit_ros_server.py" />
+    <param name="use_real_hw" value="$(arg use_real_hw)" />
+    <param name="graspit_pointcloud_topic" value="/filtered_pc" if="$(arg use_filtered_pointcloud_topic)" />
+    <param name="graspit_pointcloud_topic" value="/camera/depth_registered/points" unless="$(arg use_filtered_pointcloud_topic)" />
 
-  <include file="$(find moveit_trajectory_planner)/launch/staubli_tp_demo.launch" />
+
+    <node name="graspit_ros_server" pkg="graspit_python_node" type="graspit_ros_server.py" >
+        <param name="graspit_url" value="$(arg graspit_url)" />
+    </node>
+
+    <node name="graspit_proto_server" pkg="graspit_python_node" type="graspit_ros_pointcloud_relay.py" />
+
+
+    <group if="$(arg use_moveit)" >
+        <include file="$(find staubli_barretthand_moveit_config)/launch/demo.launch"/>
+        <include file="$(find moveit_trajectory_planner)/launch/moveit_trajectory_planner.launch"/>
+    </group>
+
+    <group unless="$(arg use_moveit)">
+        <!-- launch openrave planner here -->
+    </group>
 
 </launch>

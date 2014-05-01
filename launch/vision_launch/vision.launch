@@ -1,13 +1,13 @@
 <launch>  
-  <arg name="use_pointcloud_filter" default="False" />
+  <arg name="use_filtered_pointcloud_topic" default="False" />
   <arg name="use_fake_vision" default="False"/>
   <arg name="use_fake_model_rec" default="False"/>
   <arg name="openni_respawn" default="True" />
 
 
   <!-- Use the filtered point cloud topic if available, the unfiltered one otherwise -->
-  <param name="cloud_topic" value="/filtered_pc" if="$(arg use_pointcloud_filter)"/>
-  <param name="cloud_topic" value="/camera/depth_registered/points" unless="$(arg use_pointcloud_filter)"/>
+  <param name="cloud_topic" value="/filtered_pc" if="$(arg use_filtered_pointcloud_topic)"/>
+  <param name="cloud_topic" value="/camera/depth_registered/points" unless="$(arg use_filtered_pointcloud_topic)"/>
 
 
   <group if="$(arg use_fake_vision)" >
@@ -32,13 +32,10 @@
 
       <include file="$(find mock_vision)/launch/mock_vision.launch"/>
 
-      <include file="$(find pc_filter)/launch/pc_filter.launch"  if="$(arg use_pointcloud_filter)"/>
+      <include file="$(find pc_filter)/launch/pc_filter.launch"  if="$(arg use_filtered_pointcloud_topic)"/>
 
       <node pkg="model_rec2" name="model_rec" type="ObjRecRANSACRun" />
   </group>
-
-
-
 
 
 </launch>

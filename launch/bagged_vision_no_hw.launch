@@ -1,32 +1,10 @@
 <launch>
-    <!-- Enable simulated data from the kinect rather than real data -->
-    <arg name="use_fake_vision" default="True"/>
-    <!-- Chose whether the planners use the filtered point cloud or the unfiltered one -->
-    <arg name="use_pointcloud_filter" default="False"/>
-    <!-- Respawn the camera if the nodelet dies -->
-    <arg name="openni_respawn" default="True"/>
-    <arg name="use_moveit" default="True"/>
-    <arg name="use_real_hw" default="False" />
-    <arg name="use_fake_model_rec" default="True" />
 
-  <include file="$(find bci_experiment_launch)/launch/hardware_launch/hardware.launch">
-     <arg name="use_real_hw" value="$(arg use_real_hw)" />
-  </include>
-
-    <include file="$(find bci_experiment_launch)/launch/vision_launch/vision.launch" >
-      <arg name="use_fake_vision" value="$(arg use_fake_vision)" />
-      <arg name="use_pointcloud_filter" value="$(arg use_pointcloud_filter)"/>
-      <arg name="openni_respawn" value="$(arg openni_respawn)"/>
-      <arg name="use_fake_model_rec" value="$(arg use_fake_model_rec)"/>
-    </include>
-
-    <include file="$(find bci_experiment_launch)/launch/planners_launch/planners.launch" unless="$(arg use_moveit)">
-      <arg name="init_planner" value="False" />
-      <arg name="use_filtered_pointcloud_topic" value="$(arg use_pointcloud_filter)"/>
-    </include>
-
-    <include file="$(find bci_experiment_launch)/launch/planners_launch/moveit_planners.launch" if="$(arg use_moveit)">
-         <arg name="init_planner" value="False"/>
+    <include file="$(find bci_experiment_launch)/launch/everything.launch">
+        <arg name="use_fake_vision" value="True"/>
+        <arg name="use_filtered_pointcloud_topic" value="False"/>
+        <arg name="use_real_hw" value="False" />
+        <arg name="use_fake_model_rec" value="True" />
     </include>
 
     <include file="$(find mock_graspit)/launch/integration_tests.test"/>

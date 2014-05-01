@@ -1,7 +1,7 @@
 <launch>
-    <arg name="use_filtered_pointcloud_topic" default="False" /> 
     <arg name="graspit_url" default="picard.cs.columbia.edu" />
     <arg name="init_planner" default="False"/>
+
 
     <include file="$(find staubli_barretthand_moveit_config)/launch/demo.launch"/>
 
@@ -10,6 +10,9 @@
     <node name="graspit_ros_server" pkg="graspit_python_node" type="graspit_ros_server.py" >
         <param name="graspit_url" value="$(arg graspit_url)" />
     </node>
+
+
+    <node name="graspit_proto_server" pkg="graspit_python_node" type="graspit_ros_pointcloud_relay.py" />
 
 
 

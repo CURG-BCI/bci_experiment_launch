@@ -27,7 +27,6 @@
 
     <include file="$(find bci_experiment_launch)/launch/planners_launch/moveit_planners.launch" if="$(arg use_moveit)">
          <arg name="init_planner" value="False"/>
-         <arg name="use_filtered_pointcloud_topic" value="$(arg use_pointcloud_filter)"/>
     </include>
 
     <include file="$(find mock_graspit)/launch/integration_tests.test"/>

@@ -14,11 +14,13 @@
     <arg name="use_moveit" default="True"/>
 
 
+    <!--Spin up the nodes that communicate to the actual robot-->
     <include file="$(find bci_experiment_launch)/launch/hardware_launch/hardware.launch">
         <arg name="use_real_hw" value="$(arg use_real_hw)" />
     </include>
 
 
+    <!--Spin up the nodes related to vision or mock vision-->
     <include file="$(find bci_experiment_launch)/launch/vision_launch/vision.launch" >
         <arg name="use_fake_vision" value="$(arg use_fake_vision)" />
         <arg name="use_filtered_pointcloud_topic" value="$(arg use_filtered_pointcloud_topic)"/>
@@ -26,7 +28,7 @@
         <arg name="use_fake_model_rec" value="$(arg use_fake_model_rec)"/>
     </include>
 
-
+    <!--Spin up nodes related to planning including the graspit python node-->
     <include file="$(find bci_experiment_launch)/launch/planners_launch/planners.launch">
         <arg name="use_real_hw" value="$(arg use_real_hw)" />
         <arg name="use_filtered_pointcloud_topic" value="$(arg use_filtered_pointcloud_topic)"/>

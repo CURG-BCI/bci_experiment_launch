@@ -19,7 +19,6 @@
         <arg name="use_real_hw" value="$(arg use_real_hw)" />
     </include>
 
-
     <!--Spin up the nodes related to vision or mock vision-->
     <include file="$(find bci_experiment_launch)/launch/vision_launch/vision.launch" >
         <arg name="use_fake_vision" value="$(arg use_fake_vision)" />

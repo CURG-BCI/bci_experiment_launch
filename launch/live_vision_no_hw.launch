@@ -1,10 +1,10 @@
 <launch>
 
     <include file="$(find bci_experiment_launch)/launch/everything.launch">
-        <arg name="use_fake_vision" value="False"/>
+        <arg name="use_vision_hw" value="False"/>
         <arg name="use_filtered_pointcloud_topic" value="False"/>
-        <arg name="use_real_hw" value="False" />
-        <arg name="use_fake_model_rec" value="False" />
+        <arg name="use_robot_hw" value="False" />
+        <arg name="use_model_rec" value="True" />
     </include>
 
     <include file="$(find mock_graspit)/launch/integration_tests.test"/>

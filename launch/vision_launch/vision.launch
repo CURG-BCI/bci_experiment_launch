@@ -1,41 +1,45 @@
-<launch>  
-  <arg name="use_filtered_pointcloud_topic" default="False" />
-  <arg name="use_fake_vision" default="False"/>
-  <arg name="use_fake_model_rec" default="False"/>
-  <arg name="openni_respawn" default="True" />
+<launch>
+
+    <arg name="use_filtered_pointcloud_topic" default="False" />
+    <arg name="use_vision_hw" default="True"/>
+    <arg name="use_model_rec" default="True"/>
+    <arg name="openni_respawn" default="True" />
 
 
-  <!-- Use the filtered point cloud topic if available, the unfiltered one otherwise -->
-  <param name="cloud_topic" value="/filtered_pc" if="$(arg use_filtered_pointcloud_topic)"/>
-  <param name="cloud_topic" value="/camera/depth_registered/points" unless="$(arg use_filtered_pointcloud_topic)"/>
+    <!-- Use the filtered point cloud topic if available, the unfiltered one otherwise -->
+    <param name="cloud_topic" value="/filtered_pc" if="$(arg use_filtered_pointcloud_topic)"/>
+    <param name="cloud_topic" value="/camera/depth_registered/points" unless="$(arg use_filtered_pointcloud_topic)"/>
 
 
-  <group if="$(arg use_fake_vision)" >
+    <group if="$(arg use_vision_hw)" >
 
-    <include file="$(find mock_vision)/launch/mock_vision.launch" />
+        <include file="$(find openni_launch)/launch/openni.launch">
+            <arg name="depth_registration" value="true" />
+            <arg name="bond" value="true" />
+        </include>
 
-        <group if="$(arg use_fake_model_rec)" >
+        <include file="$(find mock_vision)/launch/mock_vision.launch"/>
+
+        <include file="$(find pc_filter)/launch/pc_filter.launch"  if="$(arg use_filtered_pointcloud_topic)"/>
+
+        <node pkg="model_rec2" name="model_rec" type="ObjRecRANSACRun" />
+
+    </group>
+
+
+    <group unless="$(arg use_vision_hw)">
+
+        <include file="$(find mock_vision)/launch/mock_vision.launch" />
+
+        <group if="$(arg use_model_rec)" >
+            <node pkg="model_rec2" name="model_rec" type="ObjRecRANSACRun" />
+        </group>
+
+        <group unless="$(arg use_model_rec)" >
             <node pkg="mock_model_rec2" name="mock_model_rec2_node" type="mock_model_rec2_node.py" />
         </group>
 
-         <group unless="$(arg use_fake_model_rec)" >
-            <node pkg="model_rec2" name="model_rec" type="ObjRecRANSACRun" />
-        </group>
-  </group>
-
-  <group unless="$(arg use_fake_vision)">
-
-      <include file="$(find openni_launch)/launch/openni.launch">
-          <arg name="depth_registration" value="true" />
-          <arg name="bond" value="true" />
-      </include>
-
-      <include file="$(find mock_vision)/launch/mock_vision.launch"/>
-
-      <include file="$(find pc_filter)/launch/pc_filter.launch"  if="$(arg use_filtered_pointcloud_topic)"/>
-
-      <node pkg="model_rec2" name="model_rec" type="ObjRecRANSACRun" />
-  </group>
+    </group>
 
 
 </launch>

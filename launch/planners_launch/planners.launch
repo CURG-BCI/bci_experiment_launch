@@ -1,13 +1,11 @@
 <launch>
 
     <arg name="graspit_url" default="picard.cs.columbia.edu" />
-    <!-- Should the planner start communicating with the robot -->
-    <arg name="use_real_hw" default="False" />
-    <!-- Chose whether the planners use the filtered point cloud or the unfiltered one -->
+    <arg name="use_robot_hw" default="False" />
     <arg name="use_filtered_pointcloud_topic" default="False" />
     <arg name="use_moveit" default="True"/>
 
-    <param name="use_real_hw" value="$(arg use_real_hw)" />
+    <param name="use_robot_hw" value="$(arg use_robot_hw)" />
     <param name="graspit_pointcloud_topic" value="/filtered_pc" if="$(arg use_filtered_pointcloud_topic)" />
     <param name="graspit_pointcloud_topic" value="/camera/depth_registered/points" unless="$(arg use_filtered_pointcloud_topic)" />
 
@@ -15,6 +13,7 @@
     <node name="graspit_ros_server" pkg="graspit_python_node" type="graspit_ros_server.py" >
         <param name="graspit_url" value="$(arg graspit_url)" />
     </node>
+
 
     <node name="graspit_proto_server" pkg="graspit_python_node" type="graspit_ros_pointcloud_relay.py" />
 

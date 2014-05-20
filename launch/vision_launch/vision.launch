@@ -13,7 +13,7 @@
 
     <group if="$(arg use_vision_hw)" >
 
-        <include file="$(find openni_launch)/launch/openni.launch">
+        <include file="$(find freenect_launch)/launch/freenect.launch">
             <arg name="depth_registration" value="true" />
             <arg name="bond" value="true" />
         </include>

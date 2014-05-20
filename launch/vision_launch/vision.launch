@@ -21,8 +21,14 @@
 
 
 
-        <node pkg="model_rec2" name="model_rec" type="ObjRecRANSACRun" />
         <include file="$(find pc_filter)/launch/nodelet_pc_filter.launch"  if="$(arg use_filtered_pointcloud_topic)"/>
+	<group if="$(arg use_model_rec)" >
+	        <node pkg="model_rec2" name="model_rec" type="ObjRecRANSACRun" />
+        </group>
+
+        <group unless="$(arg use_model_rec)" >
+            <node pkg="mock_model_rec2" name="mock_model_rec2_node" type="mock_model_rec2_node.py" />
+        </group>
 
     </group>
 

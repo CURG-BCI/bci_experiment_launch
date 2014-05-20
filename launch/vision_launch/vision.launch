@@ -19,7 +19,6 @@
 	    <arg name="data_skip" value="5"/>
         </include>
 
-        <include file="$(find mock_vision)/launch/mock_vision.launch"/>
 
         <include file="$(find pc_filter)/launch/pc_filter.launch"  if="$(arg use_filtered_pointcloud_topic)"/>
 

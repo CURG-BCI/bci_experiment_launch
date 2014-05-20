@@ -19,7 +19,11 @@
 
 
     <group if="$(arg use_moveit)" >
-        <include file="$(find staubli_barretthand_moveit_config)/launch/demo.launch"/>
+        <include file="$(find staubli_barretthand_moveit_config)/launch/staubli_bhand_rviz_interface.launch">
+    	     <arg name="fake_execution" value="true" unless="$(arg use_robot_hw)"/>
+    	     <arg name="fake_execution" value="false" if="$(arg use_robot_hw)"/>
+
+	      </include>
         <include file="$(find moveit_trajectory_planner)/launch/moveit_trajectory_planner.launch"/>
     </group>
 

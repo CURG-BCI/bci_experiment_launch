@@ -20,9 +20,9 @@
         </include>
 
 
-        <include file="$(find pc_filter)/launch/pc_filter.launch"  if="$(arg use_filtered_pointcloud_topic)"/>
 
         <node pkg="model_rec2" name="model_rec" type="ObjRecRANSACRun" />
+        <include file="$(find pc_filter)/launch/nodelet_pc_filter.launch"  if="$(arg use_filtered_pointcloud_topic)"/>
 
     </group>
 

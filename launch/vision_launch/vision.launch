@@ -16,6 +16,7 @@
         <include file="$(find freenect_launch)/launch/freenect.launch">
             <arg name="depth_registration" value="true" />
             <arg name="bond" value="true" />
+	    <arg name="data_skip" value="5"/>
         </include>
 
         <include file="$(find mock_vision)/launch/mock_vision.launch"/>

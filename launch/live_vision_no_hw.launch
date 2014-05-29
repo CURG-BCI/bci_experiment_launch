@@ -1,5 +1,5 @@
 <launch>
-    <arg name="use_filtered_pointcloud_topic" default="False"/>
+    <arg name="use_filtered_pointcloud_topic" default="True"/>
 
     <include file="$(find bci_experiment_launch)/launch/everything.launch">
         <arg name="use_vision_hw" value="True"/>

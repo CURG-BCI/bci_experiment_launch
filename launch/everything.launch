@@ -3,7 +3,7 @@
     <!-- Respawn the camera if the nodelet dies -->
     <arg name="openni_respawn" default="True"/>
     <!-- Filter the point cloud before sending it to the vision system -->
-    <arg name="use_filtered_pointcloud_topic" default="False" />
+    <arg name="use_filtered_pointcloud_topic" default="True" />
     <!-- Enable simulated data from the kinect rather than real data -->
     <arg name="use_vision_hw" default="True"/>
     <!--Do we want to move the actual robot-->

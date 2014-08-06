@@ -12,12 +12,21 @@
     <arg name="use_model_rec" default="True" />
     <!--Do we want to use moveit or openrave-->
     <arg name="use_moveit" default="True"/>
-
+    <!-- Is the robot the mico robot? -->
+    <arg name="use_mico" default="True"/> 
 
     <!--Spin up the nodes that communicate to the actual robot-->
-    <include file="$(find bci_experiment_launch)/launch/hardware_launch/hardware.launch">
-        <arg name="use_robot_hw" value="$(arg use_robot_hw)" />
-    </include>
+    <group unless="$(arg use_mico)">
+        <param name="move_group_name" value="StaubliArm" />
+        <include file="$(find bci_experiment_launch)/launch/hardware_launch/hardware.launch">
+            <arg name="use_robot_hw" value="$(arg use_robot_hw)" />
+        </include>
+    </group>
+    <group if="$(arg use_mico)">
+        <param name="move_group_name" value="manipulator" />
+        <include file="$(find bci_experiment_launch)/launch/hardware_launch/mico_hardware.launch">
+        </include>
+    </group>
 
     <!--Spin up the nodes related to vision or mock vision-->
     <include file="$(find bci_experiment_launch)/launch/vision_launch/vision.launch" >
@@ -32,6 +41,7 @@
         <arg name="use_robot_hw" value="$(arg use_robot_hw)" />
         <arg name="use_filtered_pointcloud_topic" value="$(arg use_filtered_pointcloud_topic)"/>
         <arg name="use_moveit" value="$(arg use_moveit)"/>
+        <arg name="use_mico" value="$(arg use_mico)"/>
     </include>
 
 </launch>

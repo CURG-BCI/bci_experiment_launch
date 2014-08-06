@@ -4,6 +4,7 @@
     <arg name="use_robot_hw" default="False" />
     <arg name="use_filtered_pointcloud_topic" default="False" />
     <arg name="use_moveit" default="True"/>
+    <arg name="use_mico" default="False" />
 
     <param name="use_robot_hw" value="$(arg use_robot_hw)" />
     <param name="graspit_pointcloud_topic" value="/filtered_pc" if="$(arg use_filtered_pointcloud_topic)" />
@@ -17,10 +18,15 @@
 
     <node name="graspit_proto_server" pkg="graspit_python_node" type="graspit_ros_pointcloud_relay.py" />
 
-
+    
     <group if="$(arg use_moveit)" >
-        <include file="$(find staubli_barretthand_moveit_config)/launch/demo.launch"/>
-        <include file="$(find moveit_trajectory_planner)/launch/moveit_trajectory_planner.launch"/>
+	<group unless="$(arg use_mico)">
+	        <include file="$(find staubli_barretthand_moveit_config)/launch/demo.launch"/>
+         </group>
+	<group if="$(arg use_mico)">
+		 <include file="$(find mico_moveit_config)/launch/mico_moveit.launch"/>
+	</group>
+	<include file="$(find moveit_trajectory_planner)/launch/moveit_trajectory_planner.launch"/>
     </group>
 
     <group unless="$(arg use_moveit)">

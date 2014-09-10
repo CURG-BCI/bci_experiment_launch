@@ -20,13 +20,18 @@
 
 
     <group if="$(arg use_moveit)" >
-	    <group unless="$(arg use_mico)">
+        <group unless="$(arg use_mico)">
             <rosparam param="home_joint_values">[0,0,0,0,0,0]</rosparam>
-	        <include file="$(find staubli_barretthand_moveit_config)/launch/demo.launch"/>
+	        <include file="$(find staubli_barretthand_moveit_config)/launch/staubli_bhand_rviz_interface.launch">
+    		     <arg name="fake_execution" value="true" unless="$(arg use_robot_hw)"/>
+		     <arg name="fake_execution" value="false" if="$(arg use_robot_hw)"/>
+
+		 </include>
          </group>
-	    <group if="$(arg use_mico)">
-            <rosparam param="home_joint_values">[4.6267266273498535, -1.6593461667240315, 0.1944244748554111, 5.171727657318115, 1.6053062677383423, 3.4033920764923096]</rosparam>
-		     <include file="$(find mico_moveit_config)/launch/mico_moveit.launch"/>
+
+	 <group if="$(arg use_mico)">
+         	 <rosparam param="home_joint_values">[4.6267266273498535, -1.6593461667240315, 0.1944244748554111, 5.171727657318115, 1.6053062677383423, 3.4033920764923096]</rosparam>
+		 <include file="$(find mico_moveit_config)/launch/mico_moveit.launch"/>
 	    </group>
 
         <include file="$(find moveit_trajectory_planner)/launch/moveit_trajectory_planner.launch"/>

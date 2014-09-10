@@ -14,19 +14,24 @@
 
     <group if="$(arg use_vision_hw)" >
 
-        <include file="$(find openni_launch)/launch/openni.launch">
+        <include file="$(find freenect_launch)/launch/freenect.launch">
             <arg name="depth_registration" value="true" />
             <arg name="bond" value="true" />
+	    <arg name="data_skip" value="5"/>
         </include>
         <include file="$(find pc_filter)/launch/nodelet_pc_filter.launch"  if="$(arg use_filtered_pointcloud_topic)"/>
 
-        <group if="$(arg use_model_rec)" >
-            <node pkg="model_rec2" name="model_rec" type="ObjRecRANSACRun" />
+
+
+        <include file="$(find pc_filter)/launch/nodelet_pc_filter.launch"  if="$(arg use_filtered_pointcloud_topic)"/>
+	<group if="$(arg use_model_rec)" >
+	        <node pkg="model_rec2" name="model_rec" type="ObjRecRANSACRun" />
         </group>
 
         <group unless="$(arg use_model_rec)" >
             <node pkg="mock_model_rec2" name="mock_model_rec2_node" type="mock_model_rec2_node.py" />
         </group>
+
     </group>
 
 

@@ -2,9 +2,11 @@
 
     <arg name="use_robot_hw" default="False"/>
 
-    <node name="jaco_arm_driver" pkg="jaco_driver"  type="jaco_arm_driver" output="screen" cwd="node"/>
+    <node name="jaco_arm_driver" pkg="jaco_driver"  type="jaco_arm_driver" output="screen" cwd="node" if="$(arg use_robot_hw)"/>
 
-    <node pkg="tf" type="static_transform_publisher" name="camera_to_root" args="0.98227267, 0.01395134, 0.19511264, 0.19301309, -0.18503275, -0.5804247, 0.76916578 /camera_link /root 100"/>
+    <node pkg="tf" type="static_transform_publisher" name="world_to_root" args=".034, .426, .113, .050, -.033, -.001 /world /root 100" />
+    <node pkg="tf" type="static_transform_publisher" name="hand_to_approach" args= "0, 0, 0, 0, 0, -1.57079632679, 1.57079632679 mico_link_hand approach_tran_frame 100" />
+
     <include file="$(find checkerboard_detection)/launch/mico_4x4_board.launch" />
 
     <node name="jaco_tf_updater" pkg="jaco_driver" type="jaco_tf_updater" output="screen" cwd="node">
@@ -14,7 +16,7 @@
     <rosparam param="robot_description_planning/default_robot_padding">
       .01
     </rosparam>
-    <arg name="use_mico" default="1"/>
+
     <param name="robot_description" command="$(find xacro)/xacro.py '$(find jaco_model)/urdf/standalone_mico_arm.xacro'" />
 
     <!-- include line for moveit <include file="$(find mico_moveit_config)/launch/mico_moveit.launch"/> -->

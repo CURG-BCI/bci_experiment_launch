@@ -17,14 +17,17 @@
 
     <!--Spin up the nodes that communicate to the actual robot-->
     <group unless="$(arg use_mico)">
-        <param name="move_group_name" value="StaubliArm" />
+        <param name="arm_name" value="StaubliArm" />
+        <param name="end_effector_name" value="BarrettHandEE" />
         <include file="$(find bci_experiment_launch)/launch/hardware_launch/hardware.launch">
             <arg name="use_robot_hw" value="$(arg use_robot_hw)" />
         </include>
     </group>
     <group if="$(arg use_mico)">
-        <param name="move_group_name" value="manipulator" />
+        <param name="arm_name" value="manipulator" />
+        <param name="end_effector_name" value="end_effector" />
         <include file="$(find bci_experiment_launch)/launch/hardware_launch/mico_hardware.launch">
+            <arg name="use_robot_hw" value="$(arg use_robot_hw)" />
         </include>
     </group>
 

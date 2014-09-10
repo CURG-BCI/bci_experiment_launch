@@ -4,12 +4,13 @@
     <arg name="use_vision_hw" default="True"/>
     <arg name="use_model_rec" default="True"/>
     <arg name="openni_respawn" default="True" />
+    <arg name="fake_vision_bag_filename" default="$(find mock_vision)/data/simulate_kinect_data_staubli.bag" />
 
 
     <!-- Use the filtered point cloud topic if available, the unfiltered one otherwise -->
     <param name="cloud_topic" value="/filtered_pc" if="$(arg use_filtered_pointcloud_topic)"/>
     <param name="cloud_topic" value="/camera/depth_registered/points" unless="$(arg use_filtered_pointcloud_topic)"/>
-
+    <param name="fake_vision_bag_filename" value="$(find mock_vision)/data/simulate_kinect_data_staubli.bag" />
 
     <group if="$(arg use_vision_hw)" >
 
@@ -17,19 +18,23 @@
             <arg name="depth_registration" value="true" />
             <arg name="bond" value="true" />
         </include>
+        <include file="$(find pc_filter)/launch/nodelet_pc_filter.launch"  if="$(arg use_filtered_pointcloud_topic)"/>
 
-        <include file="$(find mock_vision)/launch/mock_vision.launch"/>
+        <group if="$(arg use_model_rec)" >
+            <node pkg="model_rec2" name="model_rec" type="ObjRecRANSACRun" />
+        </group>
 
-        <include file="$(find pc_filter)/launch/pc_filter.launch"  if="$(arg use_filtered_pointcloud_topic)"/>
-
-        <node pkg="model_rec2" name="model_rec" type="ObjRecRANSACRun" />
-
+        <group unless="$(arg use_model_rec)" >
+            <node pkg="mock_model_rec2" name="mock_model_rec2_node" type="mock_model_rec2_node.py" />
+        </group>
     </group>
 
 
     <group unless="$(arg use_vision_hw)">
 
-        <include file="$(find mock_vision)/launch/mock_vision.launch" />
+        <include file="$(find mock_vision)/launch/mock_vision.launch">
+                <arg name="bag_filename" value="$(arg fake_vision_bag_filename)"/>
+        </include>
 
         <group if="$(arg use_model_rec)" >
             <node pkg="model_rec2" name="model_rec" type="ObjRecRANSACRun" />

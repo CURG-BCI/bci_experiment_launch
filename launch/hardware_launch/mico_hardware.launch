@@ -4,7 +4,8 @@
 
     <node name="jaco_arm_driver" pkg="jaco_driver"  type="jaco_arm_driver" output="screen" cwd="node" if="$(arg use_robot_hw)"/>
 
-    <node pkg="tf" type="static_transform_publisher" name="world_to_root" args=".034, .426, .113, .050, -.033, -.001 /world /root 100" />
+    <node pkg="lcsr_tf_tools" type="interactive_transform_publisher" name="world_to_root" args="-0.428419977427 -0.0104811433703 0.107156157494  0.00173236731355 0.0148199068154 -0.0147034455073 0.999780564902 /world /root 100"/>
+
     <node pkg="tf" type="static_transform_publisher" name="hand_to_approach" args= "0, 0, 0, 0, 0, -1.57079632679, 1.57079632679 mico_link_hand approach_tran_frame 100" />
 
     <include file="$(find checkerboard_detection)/launch/mico_4x4_board.launch" />

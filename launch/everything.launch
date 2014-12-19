@@ -14,6 +14,9 @@
     <arg name="use_moveit" default="True"/>
     <!-- Is the robot the mico robot? -->
     <arg name="use_mico" default="True"/> 
+    <arg name="workspace_name" default="mico_robot" if="$(arg use_mico)" />
+    <!--<arg name="workspace_name" value="staubli" unless="$(arg use_mico)" />-->
+    <arg name="graspit_url" default="192.168.11.63" />
 
     <!--Spin up the nodes that communicate to the actual robot-->
     <group unless="$(arg use_mico)">
@@ -37,6 +40,7 @@
         <arg name="use_filtered_pointcloud_topic" value="$(arg use_filtered_pointcloud_topic)"/>
         <arg name="openni_respawn" value="$(arg openni_respawn)"/>
         <arg name="use_model_rec" value="$(arg use_model_rec)"/>
+	<arg name="workspace_name" value="$(arg workspace_name)"/>
     </include>
 
     <!--Spin up nodes related to planning including the graspit python node-->
@@ -45,6 +49,7 @@
         <arg name="use_filtered_pointcloud_topic" value="$(arg use_filtered_pointcloud_topic)"/>
         <arg name="use_moveit" value="$(arg use_moveit)"/>
         <arg name="use_mico" value="$(arg use_mico)"/>
+	<arg name="graspit_url" value="$(arg graspit_url)" />
     </include>
 
 </launch>

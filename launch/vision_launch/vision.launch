@@ -5,7 +5,7 @@
     <arg name="use_model_rec" default="True"/>
     <arg name="openni_respawn" default="True" />
     <arg name="fake_vision_bag_filename" default="$(find mock_vision)/data/simulate_kinect_data_staubli.bag" />
-
+    <arg name="workspace_name" default="staubli"/>
 
     <!-- Use the filtered point cloud topic if available, the unfiltered one otherwise -->
     <param name="cloud_topic" value="/filtered_pc" if="$(arg use_filtered_pointcloud_topic)"/>
@@ -19,36 +19,25 @@
             <arg name="bond" value="true" />
 	    <arg name="data_skip" value="5"/>
         </include>
-        <include file="$(find pc_filter)/launch/nodelet_pc_filter.launch"  if="$(arg use_filtered_pointcloud_topic)"/>
+        <include file="$(find pc_filter)/launch/nodelet_pc_filter.launch"  if="$(arg use_filtered_pointcloud_topic)">
+	    <arg name="workspace_name" value="$(arg workspace_name)"/>
+	</include>
 
 
+    </group>
 
-        <include file="$(find pc_filter)/launch/nodelet_pc_filter.launch"  if="$(arg use_filtered_pointcloud_topic)"/>
-	<group if="$(arg use_model_rec)" >
-	        <node pkg="model_rec2" name="model_rec" type="ObjRecRANSACRun" />
-        </group>
-
-        <group unless="$(arg use_model_rec)" >
-            <node pkg="mock_model_rec2" name="mock_model_rec2_node" type="mock_model_rec2_node.py" />
-        </group>
-
+    <group if="$(arg use_model_rec)" >
+    	   <node pkg="model_rec2" name="model_rec" type="ObjRecRANSACRun" />
+    </group>
+    <group unless="$(arg use_model_rec)" >
+        <node pkg="mock_model_rec2" name="mock_model_rec2_node" type="mock_model_rec2_node.py" />
     </group>
 
 
     <group unless="$(arg use_vision_hw)">
-
         <include file="$(find mock_vision)/launch/mock_vision.launch">
                 <arg name="bag_filename" value="$(arg fake_vision_bag_filename)"/>
         </include>
-
-        <group if="$(arg use_model_rec)" >
-            <node pkg="model_rec2" name="model_rec" type="ObjRecRANSACRun" />
-        </group>
-
-        <group unless="$(arg use_model_rec)" >
-            <node pkg="mock_model_rec2" name="mock_model_rec2_node" type="mock_model_rec2_node.py" />
-        </group>
-
     </group>
 
 

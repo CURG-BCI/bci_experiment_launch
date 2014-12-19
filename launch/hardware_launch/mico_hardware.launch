@@ -8,16 +8,17 @@
 
     <node pkg="tf" type="static_transform_publisher" name="hand_to_approach" args= "0, 0, 0, 0, 0, -1.57079632679, 1.57079632679 mico_link_hand approach_tran_frame 100" />
 
-    <node name="jaco_tf_updater" pkg="jaco_driver" type="jaco_tf_updater" output="screen" cwd="node">
     <include file="$(find checkerboard_detection)/launch/kinect_camerapose.launch" >
     	     <arg name="checkerboard_width" value="7"/>
 	     <arg name="checkerboard_height" value="4"/>
 	     <arg name="checkerboard_box_width" value="-0.03125"/>
 	     <arg name="checkerboard_box_height" value="0.03125"/>
     </include>
+
+    <!--<node name="jaco_tf_updater" pkg="jaco_driver" type="jaco_tf_updater" output="screen" cwd="node">
         <param name="tf_prefix" value="mico_" />
         <remap from="/jaco_tf_updater/in/joint_angles" to="/jaco_arm_driver/out/joint_angles"/>
-    </node>
+    </node> -->
     <rosparam param="robot_description_planning/default_robot_padding">
       .01
     </rosparam>

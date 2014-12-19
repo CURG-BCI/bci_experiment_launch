@@ -28,6 +28,6 @@
     <!-- include line for moveit <include file="$(find mico_moveit_config)/launch/mico_moveit.launch"/> -->
 
     <node name="robot_state_pub" pkg="robot_state_publisher" type="robot_state_publisher" output="screen">
-        <remap from="/joint_states" to="/jaco_arm_driver/out/joint_state"/>
+        <!--<remap from="/joint_states" to="/jaco_arm_driver/out/joint_state"/> -->
     </node>
 </launch>

@@ -1,12 +1,17 @@
 <launch>
-
     <arg name="use_robot_hw" default="False"/>
+    
+    <!--<machine name="fraser" address="192.168.11.64" env-loader="/home/jweisz/Dev/jaco_ws/devel/env.sh" default="never" user="jweisz">
+    </machine> -->
 
-    <node name="jaco_arm_driver" pkg="jaco_driver"  type="jaco_arm_driver" output="screen" cwd="node" if="$(arg use_robot_hw)"/>
+    <include file="$(find jaco_driver)/launch/mico_arm.launch" if="$(arg use_robot_hw)">
+    	     <arg name="use_urdf" value="true"/>
+	     <arg name="machine_name" value="localhost"/>
+    </include>
 
-    <node pkg="lcsr_tf_tools" type="interactive_transform_publisher" name="world_to_root" args="-0.428419977427 -0.0104811433703 0.107156157494  0.00173236731355 0.0148199068154 -0.0147034455073 0.999780564902 /world /root 100"/>
+    <node pkg="lcsr_tf_tools" type="interactive_transform_publisher" name="world_to_root" args="-0.428419977427 -0.0104811433703 0.04  0.00173236731355 0.0148199068154 -0.0147034455073 0.999780564902 /world /root 100"/>
 
-    <node pkg="tf" type="static_transform_publisher" name="hand_to_approach" args= "0, 0, 0, 0, 0, -1.57079632679, 1.57079632679 mico_link_hand approach_tran_frame 100" />
+    <node pkg="tf" type="static_transform_publisher" name="hand_to_approach" args= "0, 0, 0, 0, 0, -1.57079632679, 1.57079632679 mico_link_hand approach_tran 100" />
 
     <include file="$(find checkerboard_detection)/launch/kinect_camerapose.launch" >
     	     <arg name="checkerboard_width" value="7"/>
@@ -15,19 +20,8 @@
 	     <arg name="checkerboard_box_height" value="0.03125"/>
     </include>
 
-    <!--<node name="jaco_tf_updater" pkg="jaco_driver" type="jaco_tf_updater" output="screen" cwd="node">
-        <param name="tf_prefix" value="mico_" />
-        <remap from="/jaco_tf_updater/in/joint_angles" to="/jaco_arm_driver/out/joint_angles"/>
-    </node> -->
-    <rosparam param="robot_description_planning/default_robot_padding">
-      .01
-    </rosparam>
 
-    <param name="robot_description" command="$(find xacro)/xacro.py '$(find jaco_model)/urdf/standalone_mico_arm.xacro'" />
-
-    <!-- include line for moveit <include file="$(find mico_moveit_config)/launch/mico_moveit.launch"/> -->
-
-    <node name="robot_state_pub" pkg="robot_state_publisher" type="robot_state_publisher" output="screen">
-        <!--<remap from="/joint_states" to="/jaco_arm_driver/out/joint_state"/> -->
+    <node name="robot_state_pub" pkg="robot_state_publisher" type="robot_state_publisher" output="screen" unless="$(arg use_robot_hw)">
+        <remap from="joint_states" to="/mico_arm_driver/out/joint_state"/> 
     </node>
 </launch>

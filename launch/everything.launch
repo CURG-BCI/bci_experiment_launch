@@ -17,6 +17,7 @@
     <arg name="workspace_name" default="mico_robot" if="$(arg use_mico)" />
     <!--<arg name="workspace_name" value="staubli" unless="$(arg use_mico)" />-->
     <arg name="graspit_url" default="192.168.11.63" />
+    <arg name="graspit_remote_display" default="1.0"/>
 
     <!--Spin up the nodes that communicate to the actual robot-->
     <group unless="$(arg use_mico)">
@@ -50,6 +51,8 @@
         <arg name="use_moveit" value="$(arg use_moveit)"/>
         <arg name="use_mico" value="$(arg use_mico)"/>
 	<arg name="graspit_url" value="$(arg graspit_url)" />
+        <arg name="graspit_display" value="$(arg graspit_remote_display)"/>
+	<arg name="remote_launch_graspit" value="true"/>
     </include>
 
 </launch>

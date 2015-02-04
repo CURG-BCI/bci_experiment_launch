@@ -6,7 +6,7 @@
     <arg name="use_moveit" default="True"/>
     <arg name="use_mico" default="False" />
     <arg name="graspit_display" default="1.0" />
-    <arg name="launch_graspit" default="true" />
+    <arg name="remote_launch_graspit" default="true" />
     <arg name="graspit_user" default="jweisz" />
 
 
@@ -36,22 +36,29 @@
 		 </include>
          </group>
 
-	 <group if="$(arg use_mico)">
-         	 <rosparam param="home_joint_values">[4.6267266273498535, -1.6593461667240315, 0.1944244748554111, 5.171727657318115, 1.6053062677383423, 3.4033920764923096]</rosparam>
+	 <group if="$(arg use_mico)">         
+	 <rosparam param="home_joint_values">[-1.6535711019001942, -1.6583837003060768, 0.20308707209116691, -1.1078872640140502, 1.6588560119254023, 3.39863243]</rosparam>
 		 <include file="$(find mico_moveit_config)/launch/mico_moveit.launch"/>
 	    </group>
 
-        <include file="$(find moveit_trajectory_planner)/launch/moveit_trajectory_planner.launch"/>
+        <include file="$(find moveit_trajectory_planner)/launch/moveit_trajectory_planner.launch">
+	  <arg name="hand_name" value="mico" if="$(arg use_mico)" />
+	  <arg name="hand_name" value="barrett" unless="$(arg use_mico)" />
+        </include>
+	  
     </group>
 
     <group unless="$(arg use_moveit)">
         <!-- launch openrave planner here -->
     </group>
 
-    <group if="$(arg launch_graspit)">
+    <group if="$(arg remote_launch_graspit)">
       <node name="graspit_remote" pkg="graspit_python_node" type="remote_launch.py">
 	<param name="graspit_ssh_url" value="$(arg graspit_user)@$(arg graspit_url)"/>
 	<param name="graspit_display" value=":$(arg graspit_display)" />	   	
+	<param name="graspit_world" value="3objectmico" if="$(arg use_mico)" />
+	<param name="graspit_world" value="3objectbarrett" unless="$(arg use_mico)" />
+
       </node>
     </group>
 

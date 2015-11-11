@@ -5,20 +5,16 @@
     <arg name="use_filtered_pointcloud_topic" default="False" />
     <arg name="use_moveit" default="True"/>
     <arg name="use_mico" default="False" />
-    <arg name="graspit_display" default="1.0" />
+    <arg name="graspit_display" default="0.0" />
     <arg name="remote_launch_graspit" default="true" />
     <arg name="graspit_user" default="jweisz" />
-
+    <arg name="graspit_remote_bin" default="graspit"/>
 
     <param name="use_robot_hw" value="$(arg use_robot_hw)" />
     <param name="graspit_pointcloud_topic" value="/filtered_pc" if="$(arg use_filtered_pointcloud_topic)" />
     <param name="graspit_pointcloud_topic" value="/camera/depth_registered/points" unless="$(arg use_filtered_pointcloud_topic)" />
     <param name="/table_world_x_offset" value="0.7" if="$(arg use_mico)"/>
     <param name="/table_world_y_offset" value="-0.3" if="$(arg use_mico)"/>
-
-    <node name="graspit_ros_server" pkg="graspit_python_node" type="graspit_ros_server.py" >
-        <param name="graspit_url" value="$(arg graspit_url)" />
-    </node>
 
 
     <node name="graspit_proto_server" pkg="graspit_python_node" type="graspit_ros_pointcloud_relay.py">
@@ -37,9 +33,10 @@
          </group>
 
 	 <group if="$(arg use_mico)">         
-	 <rosparam param="home_joint_values">[-1.6535711019001942, -1.6583837003060768, 0.20308707209116691, -1.1078872640140502, 1.6588560119254023, 3.39863243]</rosparam>
+	 	 <rosparam param="home_joint_values">[-1.6535711019001942, -1.6583837003060768, 0.20308707209116691, -1.1078872640140502, 1.6588560119254023, 3.39863243]</rosparam>
+
 		 <include file="$(find mico_moveit_config)/launch/mico_moveit.launch"/>
-	    </group>
+	 </group>
 
         <include file="$(find moveit_trajectory_planner)/launch/moveit_trajectory_planner.launch">
 	  <arg name="hand_name" value="mico" if="$(arg use_mico)" />
@@ -58,6 +55,7 @@
 	<param name="graspit_display" value=":$(arg graspit_display)" />	   	
 	<param name="graspit_world" value="3objectmico" if="$(arg use_mico)" />
 	<param name="graspit_world" value="3objectbarrett" unless="$(arg use_mico)" />
+        <param name="graspit_remote_bin" value="$(arg graspit_remote_bin)" />
 
       </node>
     </group>

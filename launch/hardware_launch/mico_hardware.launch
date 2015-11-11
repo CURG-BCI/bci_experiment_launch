@@ -1,12 +1,13 @@
 <launch>
     <arg name="use_robot_hw" default="False"/>
     
-    <!--<machine name="fraser" address="192.168.11.64" env-loader="/home/jweisz/Dev/jaco_ws/devel/env.sh" default="never" user="jweisz">
-    </machine> -->
+    <!--<machine name="fraser" address="192.168.11.64" env-loader="/home/jweisz/Dev/jaco_ws/devel/env.sh" default="never" user="jweisz">-->
+<machine name="fraser" address="192.168.11.64" default="never" user="jweisz" env-loader="/home/jweisz/Dev/jaco_ws/devel/env.sh">
+    </machine>
 
     <include file="$(find jaco_driver)/launch/mico_arm.launch" if="$(arg use_robot_hw)">
     	     <arg name="use_urdf" value="true"/>
-	     <arg name="machine_name" value="localhost"/>
+	     <!--<arg name="machine_name" value="fraser"/>-->
     </include>
 
     <node pkg="lcsr_tf_tools" type="interactive_transform_publisher" name="world_to_root" args="-0.428419977427 -0.0104811433703 0.04  0.00173236731355 0.0148199068154 -0.0147034455073 0.999780564902 /world /root 100"/>

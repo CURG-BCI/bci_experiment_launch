@@ -17,12 +17,14 @@
         <include file="$(find freenect_launch)/launch/freenect.launch">
             <arg name="depth_registration" value="true" />
             <arg name="bond" value="true" />
-	    <arg name="data_skip" value="5"/>
+	        <arg name="data_skip" value="5"/>
         </include>
-        <include file="$(find pc_filter)/launch/nodelet_pc_filter.launch"  if="$(arg use_filtered_pointcloud_topic)">
-	    <arg name="workspace_name" value="$(arg workspace_name)"/>
-	</include>
 
+        <include file="$(find pc_filter)/launch/nodelet_pc_filter.launch"  if="$(arg use_filtered_pointcloud_topic)">
+	        <arg name="workspace_name" value="$(arg workspace_name)"/>
+	    </include>
+
+	    <node pkg="get_camera_origin" name="getCameraOrigin_node" type="main.py" />
 
     </group>
 
@@ -36,7 +38,7 @@
 
     <group unless="$(arg use_vision_hw)">
         <include file="$(find mock_vision)/launch/mock_vision.launch">
-                <arg name="bag_filename" value="$(arg fake_vision_bag_filename)"/>
+                <!--<arg name="bag_filename" value="$(arg fake_vision_bag_filename)"/> -->
         </include>
     </group>
 

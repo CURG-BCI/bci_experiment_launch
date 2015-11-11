@@ -1,0 +1,5 @@
+<launch>
+
+<node name="user_interface" pkg="" type="grasp_execution_node.py" >
+
+</launch>

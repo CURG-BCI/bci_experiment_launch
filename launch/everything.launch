@@ -1,0 +1,33 @@
+<launch>
+
+    <arg name="use_robot_hw" default="True" />
+    <arg name="use_mico" default="True"/> 
+    <arg name="workspace_name" default="mico_robot" />
+
+    <param name="use_robot_hw" value="$(arg use_robot_hw)" />
+
+
+    <include file="$(find jaco_driver)/launch/mico_arm.launch" if="$(arg use_robot_hw)">
+        <arg name="use_urdf" value="true"/>
+    </include>
+
+    <node pkg="lcsr_tf_tools" type="interactive_transform_publisher" name="world_to_root" args="0.320566 -0.0324824 0.0177475  0.0017324 0.0148199 -0.0147034 0.999781 /world /root 100"/>
+
+    <node pkg="tf" type="static_transform_publisher" name="hand_to_approach" args= "0, 0, 0, 0, 0, -1.57079632679, 1.57079632679 mico_link_hand approach_tran 100" />
+
+
+    <include file="$(find bci_experiment_launch)/launch/vision_launch/vision.launch" >
+        <arg name="workspace_name" value="$(arg workspace_name)"/>
+    </include>
+
+
+    <include file="$(find mico_moveit_config)/launch/mico_moveit.launch">
+        <arg name="use_robot_hw" value="$(arg use_robot_hw)"/>
+    </include>
+
+    <include file="$(find moveit_trajectory_planner)/launch/moveit_trajectory_planner.launch">
+        <arg name="hand_name" value="mico" />
+    </include>
+
+
+</launch>

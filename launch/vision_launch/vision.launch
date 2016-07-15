@@ -1,6 +1,5 @@
 <launch>
     <arg name="workspace_name" default="staubli"/>
-    <param name="cloud_topic" value="/filtered_pc" />
 
     <include file="$(find freenect_launch)/launch/freenect.launch">
         <arg name="depth_registration" value="true" />
@@ -8,19 +7,7 @@
         <arg name="data_skip" value="5"/>
     </include>
 
-    <!--<include file="$(find pc_filter)/launch/pc_filter.launch" /> -->
-
-    <node pkg="pc_filter" name="pc_filter" type="server" respawn="true">
-        <param name="x_min" type="double"  value="-0.2" />
-        <param name="x_max" type="double"  value="0.23" />
-        <param name="y_min" type="double"  value="-0.65" />
-        <param name="y_max" type="double"  value="0.1" />
-        <param name="z_min" type="double"  value="0.0" />
-        <param name="z_max" type="double"  value="0.4" />
-    </node>
-
-
-    <node pkg="model_rec2" name="model_rec" type="ObjRecRANSACRun" />
+    <include file="$(find objrec_ros_integration)/launch/objrec_node.launch" />
 
       <param name="frame_id" type="string" value="/camera_rgb_optical_frame"/>
       <param name="grid0_size_x" type="int" value="7"/>

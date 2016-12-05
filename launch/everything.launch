@@ -3,6 +3,7 @@
     <arg name="use_robot_hw" default="True" />
     <arg name="use_mico" default="True"/> 
     <arg name="workspace_name" default="mico_robot" />
+    <arg name="experiment_type" default="block" />
 
     <param name="use_robot_hw" value="$(arg use_robot_hw)" />
 
@@ -11,14 +12,15 @@
         <arg name="use_urdf" value="true"/>
     </include>
 
-    <!--<node pkg="lcsr_tf_tools" type="interactive_transform_publisher" name="world_to_root" args="0.320566 -0.0324824 0.0177475  0.0017324 0.0148199 -0.0147034 0.999781 /world /root 100"/>-->
-    <node pkg="lcsr_tf_tools" type="interactive_transform_publisher" name="world_to_root" args="0.33302 -0.0281026 0.0173959  0.0017324 0.0148199 -0.0147034 0.999781 /world /root 100"/>
+    <!-- <node pkg="lcsr_tf_tools" type="interactive_transform_publisher" name="world_to_root" args="0.33302 -0.0281026 0.0173959  0.0017324 0.0148199 -0.0147034 0.999781 /world /root 100"/>-->
+    <node pkg="lcsr_tf_tools" type="interactive_transform_publisher" name="world_to_root" args="0.37209 -0.02885 0.017396  0.000000 0.0000 0.0000 1.000 /world /root 100"/>
 
     <node pkg="tf" type="static_transform_publisher" name="hand_to_approach" args= "0, 0, 0, 0, 0, -1.57079632679, 1.57079632679 mico_link_hand approach_tran 100" />
 
 
     <include file="$(find bci_experiment_launch)/launch/vision_launch/vision.launch" >
         <arg name="workspace_name" value="$(arg workspace_name)"/>
+        <arg name="experiment_type" value="$(arg experiment_type)"/>
     </include>
 
 
@@ -27,7 +29,8 @@
     </include>
 
     <include file="$(find moveit_trajectory_planner)/launch/moveit_trajectory_planner.launch">
-        <arg name="hand_name" value="mico" />
+        <arg name="hand_name" value="mico"/>
+       <arg name="experiment_type" value="$(arg experiment_type)"/>
     </include>
 
 

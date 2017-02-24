@@ -20,11 +20,11 @@
     <include file="$(find objrec_ros_integration)/launch/objrec_node.launch" />
 
       <param name="frame_id" type="string" value="/kinect2_rgb_optical_frame"/>
-      <param name="grid0_size_x" type="int" value="7"/>
+      <param name="grid0_size_x" type="int" value="6"/>
       <param name="grid0_size_y" type="int" value="4"/>
       <param name="board_type" value="chess"/>
-      <param name="rect0_size_x" type="double" value="0.03"/>
-      <param name="rect0_size_y" type="double" value="-0.03"/>
+      <param name="rect0_size_x" type="double" value="0.025"/>
+      <param name="rect0_size_y" type="double" value="0.025"/>
       <param name="type0" value="/world_raw"/>
       <param name="~use_simple_tf" type="bool" value="true"/>
       <param name="message_throttle" type="int" value="10"/>

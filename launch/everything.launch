@@ -5,7 +5,7 @@
     <arg name="experiment_type" default="block" />
 
     <param name="use_robot_hw" value="$(arg use_robot_hw)" />
-
+    <param name="experiment_type" value="$(arg experiment_type)" />
 
     <include file="$(find jaco_driver)/launch/mico_arm.launch" if="$(arg use_robot_hw)">
         <arg name="use_urdf" value="true"/>
@@ -29,7 +29,6 @@
 
     <include file="$(find moveit_trajectory_planner)/launch/moveit_trajectory_planner.launch">
         <arg name="hand_name" value="mico"/>
-        <arg name="experiment_type" value="$(arg experiment_type)"/>
     </include>
 
 </launch>

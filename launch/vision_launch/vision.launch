@@ -1,6 +1,6 @@
 <launch>
-    <arg name="use_kinect_360" default="true" />
-    <arg name="use_kinect_one" default="false" />
+    <arg name="use_kinect_360" default="false" />
+    <arg name="use_kinect_one" default="true" />
 
     <group if="$(arg use_kinect_360)">
         <include file="$(find bci_experiment_launch)/launch/vision_launch/kinect360.launch"/>

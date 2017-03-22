@@ -2,7 +2,6 @@
 
     <arg name="use_robot_hw" default="True" />
     <arg name="use_mico" default="True"/> 
-    <arg name="workspace_name" default="mico_robot" />
     <arg name="experiment_type" default="block" />
 
     <param name="use_robot_hw" value="$(arg use_robot_hw)" />
@@ -12,14 +11,18 @@
         <arg name="use_urdf" value="true"/>
     </include>
 
-    <node pkg="lcsr_tf_tools" type="interactive_transform_publisher" name="world_to_root" args="-0.133205 -0.17692 -0.249036  0.000000 0.0000 1.0000 0.000 /world /root 100"/>
+    <node pkg="lcsr_tf_tools" type="interactive_transform_publisher" name="world_to_root" args="0.141942 -0.0851055 0.0478947 0.000000 0.0000 1.0000 0.000 /world /root 100"/>
+    <!--<node pkg="lcsr_tf_tools" type="interactive_transform_publisher" name="world_to_root" args="-0.17364 -0.1956 -0.277312  0.000000 0.0000 1.0000 0.000 /world /root 100"/>-->
+
+    <!--<node pkg="lcsr_tf_tools" type="interactive_transform_publisher" name="world_to_camera_link" args="0.30695 0.46311 0.11233 -0.18853 -0.01647 0.97036 -0.15029 /world /camera_link 100"/>-->
+    <!-- <node pkg="lcsr_tf_tools" type="interactive_transform_publisher" name="world_to_camera_link" args="0.325283 0.342981 -0.155212 0.455155 0.624967 -0.48842 -0.404594 /world /camera_link 100"/> -->
+    <!-- <node pkg="lcsr_tf_tools" type="interactive_transform_publisher" name="world_to_camera_rgb_optical_frame" args="0.310518 0.377927 -0.126731 0.455155 0.624967 -0.48842 -0.404594 /world /camera_rgb_optical_frame 100"/> -->
     <!-- <node pkg="lcsr_tf_tools" type="interactive_transform_publisher" name="world_to_root" args="0.318003 -0.02885 -0.0068  0.000000 0.0000 0.0000 1.000 /world /root 100"/> -->
 
     <node pkg="tf" type="static_transform_publisher" name="hand_to_approach" args= "0, 0, 0, 0, 0, -1.57079632679, 1.57079632679 mico_link_hand approach_tran 100" />
 
 
     <include file="$(find bci_experiment_launch)/launch/vision_launch/vision.launch" >
-        <arg name="workspace_name" value="$(arg workspace_name)"/>
         <arg name="experiment_type" value="$(arg experiment_type)"/>
     </include>
 
@@ -32,6 +35,5 @@
         <arg name="hand_name" value="mico"/>
         <arg name="experiment_type" value="$(arg experiment_type)"/>
     </include>
-
 
 </launch>

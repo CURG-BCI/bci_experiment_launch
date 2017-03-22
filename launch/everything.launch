@@ -21,11 +21,7 @@
 
     <node pkg="tf" type="static_transform_publisher" name="hand_to_approach" args= "0, 0, 0, 0, 0, -1.57079632679, 1.57079632679 mico_link_hand approach_tran 100" />
 
-
-    <include file="$(find bci_experiment_launch)/launch/vision_launch/vision.launch" >
-        <arg name="experiment_type" value="$(arg experiment_type)"/>
-    </include>
-
+    <include file="$(find bci_experiment_launch)/launch/vision_launch/vision.launch" />
 
     <include file="$(find mico_moveit_config)/launch/mico_moveit.launch">
         <arg name="use_robot_hw" value="$(arg use_robot_hw)"/>

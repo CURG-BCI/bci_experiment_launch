@@ -1,17 +1,14 @@
 <launch>
-    <arg name="experiment_type" default="normal" />
+    <arg name="use_kinect_360" default="true" />
+    <arg name="use_kinect_one" default="false" />
 
-    <include file="$(find freenect_launch)/launch/freenect.launch">
-        <arg name="depth_registration" value="true" />
-        <arg name="bond" value="true" />
-        <arg name="data_skip" value="5"/>
-    </include>
+    <group if="$(arg use_kinect_360)">
+        <include file="$(find bci_experiment_launch)/launch/vision_launch/kinect360.launch"/>
+    </group>
 
-    <include file="$(find kinect2_bridge)/launch/kinect2_bridge.launch">
-	    <arg name="depth_method" value="opencl" />
-	    <arg name="publish_tf" value="true" />
-	    <arg name="fps_limit" value="24" />
-    </include>
+    <group if="$(arg use_kinect_one)">
+        <include file="$(find bci_experiment_launch)/launch/vision_launch/kinectone.launch"/>
+    </group>
 
     <include file="$(find pc_filter)/launch/pc_filter.launch" >
         <arg name="config_file_name" value="mico_kinect360" />

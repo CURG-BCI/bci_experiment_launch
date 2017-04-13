@@ -12,6 +12,7 @@
     </include>
 
     <node pkg="lcsr_tf_tools" type="interactive_transform_publisher" name="world_to_root" args="0.141942 -0.0851055 0.0478947 0.000000 0.0000 1.0000 0.000 /world /root 50"/>
+    <!--<node pkg="lcsr_tf_tools" type="interactive_transform_publisher" name="world_to_root" args="0.13004 -0.112437 0.0648085 0.000000 0.0000 1.0000 0.000 /world /root 50"/>-->
     <!--<node pkg="lcsr_tf_tools" type="interactive_transform_publisher" name="world_to_root" args="-0.17364 -0.1956 -0.277312  0.000000 0.0000 1.0000 0.000 /world /root 100"/>-->
 
     <!--<node pkg="lcsr_tf_tools" type="interactive_transform_publisher" name="world_to_camera_link" args="0.30695 0.46311 0.11233 -0.18853 -0.01647 0.97036 -0.15029 /world /camera_link 100"/>-->

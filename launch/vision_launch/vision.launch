@@ -4,29 +4,26 @@
 
     <group if="$(arg use_kinect_360)">
         <include file="$(find bci_experiment_launch)/launch/vision_launch/kinect360.launch"/>
+        <include file="$(find pc_filter)/launch/pc_filter.launch" >
+            <arg name="config_file_name" value="mico_kinect360" />
+            <arg name="node_name" value="pc_filter_mico_kinect360" />
+            <arg name="namespace" value="pc_filter_mico_kinect360" />
+        </include>
+        <include file="$(find filter_tf)/launch/mico_kinect360.launch"/>
+        <include file="$(find ar_tracking)/launch/mico_bundle_curg_kinect360.launch"/>
     </group>
 
     <group if="$(arg use_kinect_one)">
         <include file="$(find bci_experiment_launch)/launch/vision_launch/kinectone.launch"/>
+        <include file="$(find pc_filter)/launch/pc_filter.launch" >
+            <arg name="config_file_name" value="mico_kinectone" />
+            <arg name="node_name" value="pc_filter_mico_kinectone" />
+            <arg name="namespace" value="pc_filter_mico_kinectone" />
+        </include>
+        <include file="$(find filter_tf)/launch/mico_kinectone.launch"/>
+        <include file="$(find ar_tracking)/launch/mico_bundle_curg_kinectone.launch"/>
     </group>
 
-    <include file="$(find pc_filter)/launch/pc_filter.launch" >
-        <arg name="config_file_name" value="mico_kinect360" />
-        <arg name="node_name" value="pc_filter_mico_kinect360" />
-        <arg name="namespace" value="pc_filter_mico_kinect360" />
-    </include>
-    <include file="$(find pc_filter)/launch/pc_filter.launch" >
-        <arg name="config_file_name" value="mico_kinectone" />
-        <arg name="node_name" value="pc_filter_mico_kinectone" />
-        <arg name="namespace" value="pc_filter_mico_kinectone" />
-    </include>
-
     <include file="$(find objrec_ros_integration)/launch/objrec_node.launch" />
-
-    <include file="$(find filter_tf)/launch/mico_kinect360.launch"/>
-    <include file="$(find filter_tf)/launch/mico_kinectone.launch"/>
-
     <include file="$(find ar_tracking)/launch/publish_transform.launch"/>
-    <include file="$(find ar_tracking)/launch/mico_bundle_curg_kinect360.launch"/>
-    <include file="$(find ar_tracking)/launch/mico_bundle_curg_kinectone.launch"/>
 </launch>

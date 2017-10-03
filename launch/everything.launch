@@ -7,26 +7,17 @@
     <param name="use_robot_hw" value="$(arg use_robot_hw)" />
     <param name="experiment_type" value="$(arg experiment_type)" />
 
-    <include file="$(find jaco_driver)/launch/mico_arm.launch" if="$(arg use_robot_hw)">
-        <arg name="use_urdf" value="true"/>
+    <node pkg="lcsr_tf_tools" type="interactive_transform_publisher" name="world_to_root" args="0.171823 -0.0481138 0.03697977 0.000000 0.0000 1.0 0.0 /world /root 50"/>
+
+    <node pkg="tf" type="static_transform_publisher" name="hand_to_approach" args= "0, 0, 0, 0, 0, -1.57079632679, 1.57079632679 m1n6s200_end_effector approach_tran 100" />
+
+    <include file="$(find bci_experiment_launch)/launch/vision.launch" />
+
+    <include file="$(find kinova_bringup)/launch/kinova_robot.launch" if="$(arg use_robot_hw)">
+        <arg name="kinova_robotType" value="m1n6s200"/>
     </include>
 
-    <node pkg="lcsr_tf_tools" type="interactive_transform_publisher" name="world_to_root" args="0.141942 -0.0851055 0.0478947 0.000000 0.0000 1.0000 0.000 /world /root 50"/>
-    <!--<node pkg="lcsr_tf_tools" type="interactive_transform_publisher" name="world_to_root" args="0.13004 -0.112437 0.0648085 0.000000 0.0000 1.0000 0.000 /world /root 50"/>-->
-    <!--<node pkg="lcsr_tf_tools" type="interactive_transform_publisher" name="world_to_root" args="-0.17364 -0.1956 -0.277312  0.000000 0.0000 1.0000 0.000 /world /root 100"/>-->
-
-    <!--<node pkg="lcsr_tf_tools" type="interactive_transform_publisher" name="world_to_camera_link" args="0.30695 0.46311 0.11233 -0.18853 -0.01647 0.97036 -0.15029 /world /camera_link 100"/>-->
-    <!-- <node pkg="lcsr_tf_tools" type="interactive_transform_publisher" name="world_to_camera_link" args="0.325283 0.342981 -0.155212 0.455155 0.624967 -0.48842 -0.404594 /world /camera_link 100"/> -->
-    <!-- <node pkg="lcsr_tf_tools" type="interactive_transform_publisher" name="world_to_camera_rgb_optical_frame" args="0.310518 0.377927 -0.126731 0.455155 0.624967 -0.48842 -0.404594 /world /camera_rgb_optical_frame 100"/> -->
-    <!-- <node pkg="lcsr_tf_tools" type="interactive_transform_publisher" name="world_to_root" args="0.318003 -0.02885 -0.0068  0.000000 0.0000 0.0000 1.000 /world /root 100"/> -->
-
-    <node pkg="tf" type="static_transform_publisher" name="hand_to_approach" args= "0, 0, 0, 0, 0, -1.57079632679, 1.57079632679 mico_link_hand approach_tran 100" />
-
-    <include file="$(find bci_experiment_launch)/launch/vision_launch/vision.launch" />
-
-    <include file="$(find mico_moveit_config)/launch/mico_moveit.launch">
-        <arg name="use_robot_hw" value="$(arg use_robot_hw)"/>
-    </include>
+    <include file="$(find m1n6s200_moveit_config)/launch/m1n6s200_demo.launch" />
 
     <include file="$(find moveit_trajectory_planner)/launch/moveit_trajectory_planner.launch">
         <arg name="hand_name" value="mico"/>
